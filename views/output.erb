@@ -26,7 +26,7 @@
           <% end %>
         </ul>
       </div>
-      <form method="post" action="/deploy" enctype="multipart/form-data">
+      <form method="post" action="/output" enctype="multipart/form-data">
         <div class="form-group">
           <label for="key" class="form-element">Select private key</label>
           <input type="file" name="key" id="key" />
@@ -34,7 +34,7 @@
         <button type="submit" class="button is-green is-filled">Deploy</button>
       </form>
     <% elsif @status.nil? %>
-      <form method="post" action="/deploy" enctype="multipart/form-data">
+      <form method="post" action="/output" enctype="multipart/form-data">
         <div class="form-group">
           <label for="key" class="form-element">Select private key</label>
           <input type="file" name="key" id="key" />
