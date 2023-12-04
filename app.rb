@@ -61,6 +61,7 @@ post '/output' do
     if verified
       @status = true
       @output = File.read('/var/apps/qpixel/deploy_output.log')
+      erb :output
     else
       @status = false
       @messages = ['Unrecognized key provided.']
