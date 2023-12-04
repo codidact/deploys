@@ -39,7 +39,7 @@ class Deploy
 
   def git_pull
     with_env do
-      `git pull origin master > deploy_output.log 2>&1`
+      `git pull origin develop > deploy_output.log 2>&1`
     end
   end
 
