@@ -19,27 +19,31 @@
   <main class="container has-padding-2">
     <% if !@status.nil? && !@status && !@messages.empty? %>
       <div class="notice is-danger has-color-red-900">
-        <p>There were errors while trying to deploy:</p>
+        <p>There were errors while trying to retrieve output:</p>
         <ul>
           <% @messages.each do |msg| %>
             <li><%= msg %></li>
           <% end %>
         </ul>
       </div>
+      <form method="post" action="/deploy" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="key" class="form-element">Select private key</label>
+          <input type="file" name="key" id="key" />
+        </div>
+        <button type="submit" class="button is-green is-filled">Deploy</button>
+      </form>
+    <% elsif @status.nil? %>
+      <form method="post" action="/deploy" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="key" class="form-element">Select private key</label>
+          <input type="file" name="key" id="key" />
+        </div>
+        <button type="submit" class="button is-green is-filled">Deploy</button>
+      </form>
     <% elsif !@status.nil? && @status %>
-      <div class="notice is-success has-color-green-900">
-        Deploy started successfully.
-      </div>
+      <pre><%= @output %></pre>
     <% end %>
-    <form method="post" action="/deploy" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="key" class="form-element">Select private key</label>
-        <input type="file" name="key" id="key" />
-      </div>
-      <button type="submit" class="button is-green is-filled">Deploy</button>
-    </form>
-
-    <p><a href="/output">Last Deploy Output</a></p>
   </main>
 </body>
 </html>
