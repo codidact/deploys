@@ -1,6 +1,9 @@
 require 'openssl'
 require 'securerandom'
 require 'sinatra'
+require_relative 'deploy'
+
+@deployer = Deploy.new
 
 set :public_folder, __dir__ + '/static'
 
@@ -23,9 +26,9 @@ post '/deploy' do
       pubkey.verify(digest, key.sign(digest, test_data), test_data)
     end
     if verified
-      pid = spawn '/var/apps/qpixel/deploy'
-      Process.detach pid
-      @status = true
+      status, message = @deployer.trigger
+      @status = status
+      @messages = [message]
       erb :index
     else
       @status = false
