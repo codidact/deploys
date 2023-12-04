@@ -3,7 +3,7 @@ require 'securerandom'
 require 'sinatra'
 require_relative 'deploy'
 
-@deployer = Deploy.new
+deployer = Deploy.new
 
 set :public_folder, __dir__ + '/static'
 
@@ -26,7 +26,7 @@ post '/deploy' do
       pubkey.verify(digest, key.sign(digest, test_data), test_data)
     end
     if verified
-      status, message = @deployer.trigger
+      status, message = deployer.trigger
       @status = status
       @messages = [message]
       erb :index
