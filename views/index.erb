@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Deploy | Codidact</title>
+  <link rel="stylesheet" href="https://unpkg.com/@codidact/co-design@latest/dist/codidact.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/@codidact/co-design@latest/js/co-design.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header--container container">
+      <div class="header--brand">
+        <h1 class="header--site-name">Deploy</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="container has-padding-2">
+    <% if !@status.nil? && !@status && !@messages.empty? %>
+      <div class="notice is-danger has-color-red-900">
+        <p>There were errors while trying to deploy:</p>
+        <ul>
+          <% @messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% elsif !@status.nil? && @status %>
+      <div class="notice is-success has-color-green-900">
+        Deploy started successfully.
+      </div>
+    <% end %>
+    <form method="post" action="/deploy" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="key" class="form-element">Select private key</label>
+        <input type="file" name="key" id="key" />
+      </div>
+      <button type="submit" class="button is-green is-filled">Deploy</button>
+    </form>
+  </main>
+</body>
+</html>
