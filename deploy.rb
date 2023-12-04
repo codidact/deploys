@@ -51,25 +51,25 @@ class Deploy
 
   def run_migrations
     with_env do
-      `/home/ubuntu/.rbenv/shims/bundle exec rails db:migrate >> deploy_output.log 2>&1`
+      `RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails db:migrate >> deploy_output.log 2>&1`
     end
   end
 
   def clear_cache
     with_env do
-      `/home/ubuntu/.rbenv/shims/bundle exec rails r scripts/clear_cache.rb >> deploy_output.log 2>&1`
+      `RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails r scripts/clear_cache.rb >> deploy_output.log 2>&1`
     end
   end
 
   def create_seeds
     with_env do
-      `/home/ubuntu/.rbenv/shims/bundle exec rails db:seed >> deploy_output.log 2>&1`
+      `RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails db:seed >> deploy_output.log 2>&1`
     end
   end
 
   def precompile_assets
     with_env do
-      `/home/ubuntu/.rbenv/shims/bundle exec rails assets:precompile >> deploy_output.log 2>&1`
+      `RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails assets:precompile >> deploy_output.log 2>&1`
     end
   end
 
