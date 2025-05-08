@@ -104,7 +104,7 @@ class Deploy
     params = { content: "<@794974327543300126> deployed [#{before}...#{after}](#{url})" }
     headers = { 'Content-Type': 'application/json' }
     begin
-      response = Net::HTTP.post(uri, JSON.dump(params), headers)
+      response = Net::HTTP.post(webhook_url, JSON.dump(params), headers)
       response.is_a? Net::HTTPSuccess
     rescue
       false
