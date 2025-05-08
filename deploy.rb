@@ -37,6 +37,12 @@ class Deploy
     end
   end
 
+  def current_rev
+    with_env do
+      `git rev-parse HEAD`[0..7]
+    end
+  end
+
   def git_pull
     with_env do
       `git pull origin develop > deploy_output.log 2>&1`
@@ -91,9 +97,24 @@ class Deploy
     end
   end
 
+  def send_webhook(before, after)
+    url = "https://github.com/codidact/qpixel/compare/#{before}...#{after}"
+    webhook_url = @config['webhook_url']
+
+    params = { content: "<@794974327543300126> deployed [#{before}...#{after}](#{url})" }
+    headers = { 'Content-Type': 'application/json' }
+    begin
+      response = Net::HTTP.post(uri, params.to_json, headers)
+      response.is_a? Net::HTTPSuccess
+    rescue
+      false
+    end
+  end
+
   def trigger
     if circle_status
       Thread.new do
+        before = current_rev
         git_pull
         bundle_install
         run_migrations
@@ -103,6 +124,8 @@ class Deploy
         copy_statics
         update_crontab
         restart_server
+        after = current_rev
+        send_webhook before, after
       end
       [true, 'Deploy started successfully.']
     else
