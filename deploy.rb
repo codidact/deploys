@@ -101,10 +101,10 @@ class Deploy
     url = "https://github.com/codidact/qpixel/compare/#{before}...#{after}"
     webhook_url = @config['webhook_url']
 
-    params = { content: "<@794974327543300126> deployed [#{before}...#{after}](#{url})" }
+    params = { content: "<@&794974327543300126> deployed [#{before}...#{after}](#{url})" }
     headers = { 'Content-Type': 'application/json' }
     begin
-      response = Net::HTTP.post(webhook_url, JSON.dump(params), headers)
+      response = Net::HTTP.post(URI(webhook_url), JSON.dump(params), headers)
       response.is_a? Net::HTTPSuccess
     rescue
       false
